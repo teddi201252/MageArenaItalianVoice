@@ -25,6 +25,15 @@ namespace MageArenaRussianVoice.Patches
             { new[] {"магический", "снаряд"}, v => v.CastMagicMissle() },
             { new[] {"зеркало"}, v => v.ActivateMirror() }
         };
+        private static readonly Dictionary<string, string[]> russianAdditionalCommandMap = new Dictionary<string, string[]>
+        {
+            {"rock", new[] {"валун"}},
+            {"wisp", new[] {"дух"}},
+            {"blast", new[] {"чёрный", "луч"}},
+            {"divine", new[] {"благословление"}},
+            {"blink", new[] {"прыжок"}},
+            {"thunderbolt", new[] {"гром"}},
+        };
         private static readonly AccessTools.FieldRef<VoiceControlListener, SpeechRecognizer> srRef =
             AccessTools.FieldRefAccess<VoiceControlListener, SpeechRecognizer>("sr");
 
@@ -73,9 +82,17 @@ namespace MageArenaRussianVoice.Patches
             //     spellCommand2.ResetVoiceDetect();
             // }
             var recognizer = srRef(instance);
+            //Main spells add to vocabulary
             foreach (var pair in russianCommandMap)
             {
                 foreach (var word in pair.Key)
+                {
+                    recognizer.Vocabulary.Add(word);
+                }
+            }
+            foreach (var pair in russianAdditionalCommandMap)
+            {
+                foreach (string word in pair.Value)
                 {
                     recognizer.Vocabulary.Add(word);
                 }
@@ -106,6 +123,17 @@ namespace MageArenaRussianVoice.Patches
                     if (command.Key.Any(keyword => res.Contains(keyword)))
                     {
                         command.Value(__instance);
+                    }
+                }
+                foreach (var pair in russianAdditionalCommandMap)
+                {
+                    if (pair.Value.Any(keyword => res.Contains(keyword)))
+                    {
+                        var spell = __instance.SpellPages.FirstOrDefault(s => 
+                            s != null && s.GetSpellName() == pair.Key);
+                        
+                        spell?.TryCastSpell();
+                        //return;
                     }
                 }
                 srRef(__instance).StopProcessing();
