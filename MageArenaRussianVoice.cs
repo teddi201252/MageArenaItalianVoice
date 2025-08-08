@@ -5,7 +5,7 @@ using HarmonyLib;
 
 namespace MageArenaRussianVoice;
 
-[BepInPlugin("com.infernumvii.magearenarussianvoice", "MageArenaRussianVoice", "1.0.0")]
+[BepInPlugin("com.infernumvii.magearenarussianvoice", "MageArenaRussianVoice", "1.1.2")]
 public class MageArenaRussianVoice : BaseUnityPlugin
 {
     private readonly Harmony harmony = new Harmony("com.infernumvii.magearenarussianvoice");
