@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using Dissonance;
 using HarmonyLib;
+using Recognissimo;
 using Recognissimo.Components;
 using UnityEngine;
 
@@ -83,6 +84,28 @@ namespace MageArenaRussianVoice.Patches
             // }
             var recognizer = srRef(instance);
             //Main spells add to vocabulary
+            addSpellsToVocabulary(recognizer);
+            recognizer.ResultReady.AddListener(res => instance.tryresult(res.text));
+            yield return new WaitForSeconds(1f);
+            instance.GetComponent<SpeechRecognizer>().StartProcessing();
+            while (instance.isActiveAndEnabled)
+            {
+                yield return new WaitForSeconds(30f);
+                var vbt = vbtRef(instance);
+                if (!vbt.IsTransmitting)
+                {
+                    if (recognizer != null && recognizer.State != SpeechProcessorState.Inactive)
+                    {
+                        recognizer.StopProcessing();
+                        instance.StartCoroutine((IEnumerator)restartsrMethod.Invoke(instance, null));
+                    }
+                }
+            }
+            yield break;
+        }
+
+        private static void addSpellsToVocabulary(SpeechRecognizer recognizer)
+        {
             foreach (var pair in russianCommandMap)
             {
                 foreach (var word in pair.Key)
@@ -97,20 +120,6 @@ namespace MageArenaRussianVoice.Patches
                     recognizer.Vocabulary.Add(word);
                 }
             }
-            recognizer.ResultReady.AddListener(res => instance.tryresult(res.text));
-            yield return new WaitForSeconds(1f);
-            instance.GetComponent<SpeechRecognizer>().StartProcessing();
-            while (instance.isActiveAndEnabled)
-            {
-                yield return new WaitForSeconds(30f);
-                var vbt = vbtRef(instance);
-                if (!vbt.IsTransmitting)
-                {
-                    recognizer.StopProcessing();
-                    instance.StartCoroutine((IEnumerator)restartsrMethod.Invoke(instance, null));
-                }
-            }
-            yield break;
         }
 
         [HarmonyPatch("tryresult")]
@@ -119,7 +128,8 @@ namespace MageArenaRussianVoice.Patches
         {
             if (res != null)
             {
-                foreach (var command in russianCommandMap) {
+                foreach (var command in russianCommandMap)
+                {
                     if (command.Key.Any(keyword => res.Contains(keyword)))
                     {
                         command.Value(__instance);
@@ -129,17 +139,79 @@ namespace MageArenaRussianVoice.Patches
                 {
                     if (pair.Value.Any(keyword => res.Contains(keyword)))
                     {
-                        var spell = __instance.SpellPages.FirstOrDefault(s => 
+                        var spell = __instance.SpellPages.FirstOrDefault(s =>
                             s != null && s.GetSpellName() == pair.Key);
-                        
+
                         spell?.TryCastSpell();
                         //return;
                     }
                 }
                 srRef(__instance).StopProcessing();
-		        __instance.StartCoroutine((IEnumerator)restartsrMethod.Invoke(__instance, null));
+                __instance.StartCoroutine((IEnumerator)restartsrMethod.Invoke(__instance, null));
             }
             return false;
+        }
+
+        [HarmonyPatch("resetmiclong")]
+        [HarmonyPrefix]
+        private static bool ResetMicLongPrefix(VoiceControlListener __instance, ref IEnumerator __result)
+        {
+            __result = ModifiedResetMicLong(__instance);
+            return false;
+        }
+        private static IEnumerator ModifiedResetMicLong(VoiceControlListener instance)
+        {
+            var recognizer = srRef(instance);
+            recognizer.StopProcessing();
+            yield return new WaitForSeconds(0.5f);
+            UnityEngine.Object.Destroy(recognizer);
+            srRef(instance) = instance.gameObject.AddComponent<SpeechRecognizer>();
+            var recognizerNew = srRef(instance);
+            recognizerNew.LanguageModelProvider = instance.GetComponent<StreamingAssetsLanguageModelProvider>();
+            recognizerNew.SpeechSource = instance.GetComponent<DissonanceSpeechSource>();
+            recognizerNew.Vocabulary = new List<string>();
+            instance.SpellPages = new List<ISpellCommand>();
+            MonoBehaviour[] components = instance.gameObject.GetComponents<MonoBehaviour>();
+            for (int i = 0; i < components.Length; i++)
+            {
+                ISpellCommand spellCommand = components[i] as ISpellCommand;
+                if (spellCommand != null)
+                {
+                    instance.SpellPages.Add(spellCommand);
+                }
+            }
+            addSpellsToVocabulary(recognizerNew);
+            recognizerNew.ResultReady.AddListener(res => instance.tryresult(res.text));
+            yield return new WaitForSeconds(0.1f);
+            recognizerNew.StartProcessing();
+            yield break;
+        }
+        
+        //Some magic error appear after i do resetmic this is because i add this method
+        [HarmonyPatch("restartsr")]
+        [HarmonyPrefix]
+        private static bool RestartSrPrefix(VoiceControlListener __instance, ref IEnumerator __result)
+        {
+            __result = SafeRestartSr(__instance);
+            return false; // Skip original
+        }
+
+        private static IEnumerator SafeRestartSr(VoiceControlListener instance)
+        {
+            var recognizer = srRef(instance);
+            if (recognizer == null)
+            {
+                yield break;
+            }
+            while (recognizer.State != SpeechProcessorState.Inactive)
+            {
+                yield return null;
+            }
+            if (recognizer != null)
+            {
+                recognizer.StartProcessing();
+            }
+            yield break;
         }
     }
 }

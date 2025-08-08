@@ -1,3 +1,5 @@
+## v1.1.1
+- Fix ResetMic issue
 ## v1.0.1
 - Update README
 ## v1.0.0
