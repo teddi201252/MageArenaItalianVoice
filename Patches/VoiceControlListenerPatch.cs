@@ -29,8 +29,8 @@ namespace MageArenaRussianVoice.Patches
         {
             {"rock", new[] {"валун"}},
             {"wisp", new[] {"дух"}},
-            {"blast", new[] {"чёрный", "луч"}},
-            {"divine", new[] {"благословление"}},
+            {"blast", new[] {"тёмный", "луч"}},
+            {"divine", new[] {"божий", "свет"}},
             {"blink", new[] {"прыжок"}},
             {"thunderbolt", new[] {"гром"}},
         };
