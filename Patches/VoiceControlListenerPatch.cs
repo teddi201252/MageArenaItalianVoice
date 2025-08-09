@@ -33,11 +33,9 @@ namespace MageArenaRussianVoice.Patches
         [HarmonyPostfix]
         private static void AwakePostfix(VoiceControlListener __instance)
         {
-            MageArenaRussianVoice.Logger.LogInfo("Awake");
             var plugin = BepInEx.Bootstrap.Chainloader.PluginInfos.Values.FirstOrDefault(p => p.Metadata.GUID == "com.infernumvii.magearenarussianvoice");
             if (plugin != null)
             {
-                MageArenaRussianVoice.Logger.LogInfo("Awake2");
                 VoiceCommandConfig.Init(plugin.Instance.Config);
 
                 russianCommandMap = new Dictionary<string[], Action<VoiceControlListener>>()
