@@ -2,6 +2,7 @@
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using MageArenaRussianVoice.Config;
 
 namespace MageArenaRussianVoice;
 
@@ -14,6 +15,7 @@ public class MageArenaRussianVoice : BaseUnityPlugin
     private void Awake()
     {
         Logger = base.Logger;
+        VoiceCommandConfig.Init(Config);
         harmony.PatchAll();
         Logger.LogInfo("MageArenaRussianVoice loaded!");
     }

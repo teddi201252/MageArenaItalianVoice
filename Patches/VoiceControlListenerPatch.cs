@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using Dissonance;
 using HarmonyLib;
+using MageArenaRussianVoice.Config;
 using Recognissimo;
 using Recognissimo.Components;
 using UnityEngine;
@@ -17,24 +18,8 @@ namespace MageArenaRussianVoice.Patches
     [HarmonyPatch(typeof(VoiceControlListener))]
     public static class VoiceControlListenerPatch
     {
-        private static readonly Dictionary<string[], Action<VoiceControlListener>> russianCommandMap = new Dictionary<string[], Action<VoiceControlListener>>()
-        {
-            { new[] {"огненный", "шар"}, v => v.CastFireball() },
-            { new[] {"сосулька"}, v => v.CastFrostBolt() },
-            { new[] {"вход"}, v => v.CastWorm() },
-            { new[] {"выход"}, v => v.CastHole() },
-            { new[] {"магический", "снаряд"}, v => v.CastMagicMissle() },
-            { new[] {"зеркало"}, v => v.ActivateMirror() }
-        };
-        private static readonly Dictionary<string, string[]> russianAdditionalCommandMap = new Dictionary<string, string[]>
-        {
-            {"rock", new[] {"валун"}},
-            {"wisp", new[] {"дух"}},
-            {"blast", new[] {"тёмный", "луч"}},
-            {"divine", new[] {"божий", "свет"}},
-            {"blink", new[] {"прыжок"}},
-            {"thunderbolt", new[] {"гром"}},
-        };
+        private static Dictionary<string[], Action<VoiceControlListener>> russianCommandMap;
+        private static Dictionary<string, string[]> russianAdditionalCommandMap;
         private static readonly AccessTools.FieldRef<VoiceControlListener, SpeechRecognizer> srRef =
             AccessTools.FieldRefAccess<VoiceControlListener, SpeechRecognizer>("sr");
 
@@ -43,6 +28,39 @@ namespace MageArenaRussianVoice.Patches
 
         private static readonly MethodInfo restartsrMethod =
             AccessTools.Method(typeof(VoiceControlListener), "restartsr");
+
+        [HarmonyPatch("Awake")]
+        [HarmonyPostfix]
+        private static void AwakePostfix(VoiceControlListener __instance)
+        {
+            MageArenaRussianVoice.Logger.LogInfo("Awake");
+            var plugin = BepInEx.Bootstrap.Chainloader.PluginInfos.Values.FirstOrDefault(p => p.Metadata.GUID == "com.infernumvii.magearenarussianvoice");
+            if (plugin != null)
+            {
+                MageArenaRussianVoice.Logger.LogInfo("Awake2");
+                VoiceCommandConfig.Init(plugin.Instance.Config);
+
+                russianCommandMap = new Dictionary<string[], Action<VoiceControlListener>>()
+                {
+                    { VoiceCommandConfig.FireballCommand.Value.Split(' '), v => v.CastFireball() },
+                    { VoiceCommandConfig.FrostBoltCommand.Value.Split(' '), v => v.CastFrostBolt() },
+                    { VoiceCommandConfig.WormCommand.Value.Split(' '), v => v.CastWorm() },
+                    { VoiceCommandConfig.HoleCommand.Value.Split(' '), v => v.CastHole() },
+                    { VoiceCommandConfig.MagicMissileCommand.Value.Split(' '), v => v.CastMagicMissle() },
+                    { VoiceCommandConfig.MirrorCommand.Value.Split(' '), v => v.ActivateMirror() }
+                };
+
+                russianAdditionalCommandMap = new Dictionary<string, string[]>
+                {
+                    {"rock", VoiceCommandConfig.RockCommand.Value.Split(' ')},
+                    {"wisp", VoiceCommandConfig.WispCommand.Value.Split(' ')},
+                    {"blast", VoiceCommandConfig.BlastCommand.Value.Split(' ')},
+                    {"divine", VoiceCommandConfig.DivineCommand.Value.Split(' ')},
+                    {"blink", VoiceCommandConfig.BlinkCommand.Value.Split(' ')},
+                    {"thunderbolt", VoiceCommandConfig.ThunderboltCommand.Value.Split(' ')}
+                };
+            }
+        }
 
         [HarmonyPatch("waitgetplayer")]
         [HarmonyPrefix]
