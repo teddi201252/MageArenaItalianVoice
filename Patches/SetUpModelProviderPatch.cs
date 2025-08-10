@@ -16,18 +16,26 @@ namespace MageArenaItalianVoice.Patches
         public static bool Prefix(SetUpModelProvider __instance)
         {
             StreamingAssetsLanguageModelProvider streamingAssetsLanguageModelProvider = __instance.gameObject.AddComponent<StreamingAssetsLanguageModelProvider>();
+                
+            string modPath = System.IO.Path.GetDirectoryName(typeof(SetUpModelProviderPatch).Assembly.Location);
+
+            string modelPath = System.IO.Path.Combine(modPath, $"LanguageModels/{nameOfModel}");
+
+
             streamingAssetsLanguageModelProvider.language = SystemLanguage.Italian;
             streamingAssetsLanguageModelProvider.languageModels = new List<StreamingAssetsLanguageModel>
             {
                 new StreamingAssetsLanguageModel
                 {
                     language = SystemLanguage.Italian,
-                    path = $"LanguageModels/{nameOfModel}"
+                    path = modelPath
                 }
             };
+
             SpeechRecognizer speechRecognizer = __instance.GetComponent<SpeechRecognizer>();
             speechRecognizer.LanguageModelProvider = streamingAssetsLanguageModelProvider;
             return false;
         }
     }
+
 }

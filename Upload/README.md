@@ -6,6 +6,7 @@
 ## 📌 Description
 The modification adds support for Italian-language voice commands for casting spells, replacing the standard speech recognition system.
 
+## Note: If you're using version 1.0.0, do a manual install
 ## 🛠 Installation
 1. Download the latest version of the mod
 2. Unzip everything to the root of the game
