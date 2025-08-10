@@ -41,7 +41,7 @@ namespace MageArenaItalianVoice.Config
             RockCommand = config.Bind("AdditionalCommands", "Rock", "roccia",
                 "Italian command for Rock spell (tutte le varianti di una parola possono essere separate da uno spazio)");
                 
-            WispCommand = config.Bind("AdditionalCommands", "Wisp", "wisp",
+            WispCommand = config.Bind("AdditionalCommands", "Wisp", "spirito",
                 "Italian command for Wisp spell (tutte le varianti di una parola possono essere separate da uno spazio)");
                 
             BlastCommand = config.Bind("AdditionalCommands", "Blast", "raggio oscuro",
@@ -50,7 +50,7 @@ namespace MageArenaItalianVoice.Config
             DivineCommand = config.Bind("AdditionalCommands", "Divine", "luce divina",
                 "Italian command for Divine spell (tutte le varianti di una parola possono essere separate da uno spazio)");
                 
-            BlinkCommand = config.Bind("AdditionalCommands", "Blink", "blink",
+            BlinkCommand = config.Bind("AdditionalCommands", "Blink", "salto",
                 "Italian command for Blink spell (tutte le varianti di una parola possono essere separate da uno spazio)");
                 
             ThunderboltCommand = config.Bind("AdditionalCommands", "Thunderbolt", "fulmine",
