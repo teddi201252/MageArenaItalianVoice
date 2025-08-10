@@ -1,6 +1,6 @@
 # A fork of the mod [MageArenaRussianVoice by InfernumVII](https://github.com/InfernumVII/MageArenaRussianVoice) (Thank you for everything)
 # Those who want to rebuild, do not forget to change the path to the game files in .csproj
-## Discord: teddi201252
+## Discord: teddiutsuro
 
 # 🧙‍♂️ Mod for voice control of spells in Italian
 
