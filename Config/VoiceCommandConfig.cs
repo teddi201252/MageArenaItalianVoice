@@ -1,6 +1,6 @@
 using BepInEx.Configuration;
 
-namespace MageArenaRussianVoice.Config
+namespace MageArenaItalianVoice.Config
 {
     public static class VoiceCommandConfig
     {
@@ -20,41 +20,41 @@ namespace MageArenaRussianVoice.Config
 
         public static void Init(ConfigFile config)
         {
-            FireballCommand = config.Bind("Commands", "Fireball", "огненный шар",
-                "Russian command for Fireball spell (все варианты слова могут быть разделены через пробел)");
+            FireballCommand = config.Bind("Commands", "Fireball", "palla infuocata",
+                "Italian command for Fireball spell (tutte le varianti di una parola possono essere separate da uno spazio)");
                 
-            FrostBoltCommand = config.Bind("Commands", "FrostBolt", "сосулька",
-                "Russian command for Frost Bolt spell (все варианты слова могут быть разделены через пробел)");
+            FrostBoltCommand = config.Bind("Commands", "FrostBolt", "congelati",
+                "Italian command for Frost Bolt spell (tutte le varianti di una parola possono essere separate da uno spazio)");
                 
-            WormCommand = config.Bind("Commands", "Worm", "вход",
-                "Russian command for Worm spell (все варианты слова могут быть разделены через пробел)");
+            WormCommand = config.Bind("Commands", "Worm", "buco",
+                "Italian command for Worm spell (tutte le varianti di una parola possono essere separate da uno spazio)");
                 
-            HoleCommand = config.Bind("Commands", "Hole", "выход",
-                "Russian command for Hole spell (все варианты слова могут быть разделены через пробел)");
+            HoleCommand = config.Bind("Commands", "Hole", "nero",
+                "Italian command for Hole spell (tutte le varianti di una parola possono essere separate da uno spazio)");
                 
-            MagicMissileCommand = config.Bind("Commands", "MagicMissile", "магический снаряд",
-                "Russian command for Magic Missile spell (все варианты слова могут быть разделены через пробел)");
+            MagicMissileCommand = config.Bind("Commands", "MagicMissile", "missile magico",
+                "Italian command for Magic Missile spell (tutte le varianti di una parola possono essere separate da uno spazio)");
                 
-            MirrorCommand = config.Bind("Commands", "Mirror", "зеркало",
-                "Russian command for Mirror spell (все варианты слова могут быть разделены через пробел)");
+            MirrorCommand = config.Bind("Commands", "Mirror", "specchio",
+                "Italian command for Mirror spell (tutte le varianti di una parola possono essere separate da uno spazio)");
                 
-            RockCommand = config.Bind("AdditionalCommands", "Rock", "валун",
-                "Russian command for Rock spell (все варианты слова могут быть разделены через пробел)");
+            RockCommand = config.Bind("AdditionalCommands", "Rock", "roccia",
+                "Italian command for Rock spell (tutte le varianti di una parola possono essere separate da uno spazio)");
                 
-            WispCommand = config.Bind("AdditionalCommands", "Wisp", "дух",
-                "Russian command for Wisp spell (все варианты слова могут быть разделены через пробел)");
+            WispCommand = config.Bind("AdditionalCommands", "Wisp", "wisp",
+                "Italian command for Wisp spell (tutte le varianti di una parola possono essere separate da uno spazio)");
                 
-            BlastCommand = config.Bind("AdditionalCommands", "Blast", "тёмный луч",
-                "Russian command for Blast spell (все варианты слова могут быть разделены через пробел)");
+            BlastCommand = config.Bind("AdditionalCommands", "Blast", "raggio oscuro",
+                "Italian command for Blast spell (tutte le varianti di una parola possono essere separate da uno spazio)");
                 
-            DivineCommand = config.Bind("AdditionalCommands", "Divine", "божий свет",
-                "Russian command for Divine spell (все варианты слова могут быть разделены через пробел)");
+            DivineCommand = config.Bind("AdditionalCommands", "Divine", "luce divina",
+                "Italian command for Divine spell (tutte le varianti di una parola possono essere separate da uno spazio)");
                 
-            BlinkCommand = config.Bind("AdditionalCommands", "Blink", "прыжок",
-                "Russian command for Blink spell (все варианты слова могут быть разделены через пробел)");
+            BlinkCommand = config.Bind("AdditionalCommands", "Blink", "blink",
+                "Italian command for Blink spell (tutte le varianti di una parola possono essere separate da uno spazio)");
                 
-            ThunderboltCommand = config.Bind("AdditionalCommands", "Thunderbolt", "гром",
-                "Russian command for Thunderbolt spell (все варианты слова могут быть разделены через пробел)");
+            ThunderboltCommand = config.Bind("AdditionalCommands", "Thunderbolt", "fulmine",
+                "Italian command for Thunderbolt spell (tutte le varianti di una parola possono essere separate da uno spazio)");
         }
     }
 }

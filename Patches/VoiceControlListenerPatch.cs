@@ -7,19 +7,19 @@ using System.Linq;
 using System.Reflection;
 using Dissonance;
 using HarmonyLib;
-using MageArenaRussianVoice.Config;
+using MageArenaItalianVoice.Config;
 using Recognissimo;
 using Recognissimo.Components;
 using UnityEngine;
 
 
-namespace MageArenaRussianVoice.Patches
+namespace MageArenaItalianVoice.Patches
 {
     [HarmonyPatch(typeof(VoiceControlListener))]
     public static class VoiceControlListenerPatch
     {
-        private static Dictionary<string[], Action<VoiceControlListener>> russianCommandMap;
-        private static Dictionary<string, string[]> russianAdditionalCommandMap;
+        private static Dictionary<string[], Action<VoiceControlListener>> italianCommandMap;
+        private static Dictionary<string, string[]> italianAdditionalCommandMap;
         private static readonly AccessTools.FieldRef<VoiceControlListener, SpeechRecognizer> srRef =
             AccessTools.FieldRefAccess<VoiceControlListener, SpeechRecognizer>("sr");
 
@@ -33,12 +33,12 @@ namespace MageArenaRussianVoice.Patches
         [HarmonyPostfix]
         private static void AwakePostfix(VoiceControlListener __instance)
         {
-            var plugin = BepInEx.Bootstrap.Chainloader.PluginInfos.Values.FirstOrDefault(p => p.Metadata.GUID == "com.infernumvii.magearenarussianvoice");
+            var plugin = BepInEx.Bootstrap.Chainloader.PluginInfos.Values.FirstOrDefault(p => p.Metadata.GUID == "com.teddi201252.magearenaitalianvoice");
             if (plugin != null)
             {
                 VoiceCommandConfig.Init(plugin.Instance.Config);
 
-                russianCommandMap = new Dictionary<string[], Action<VoiceControlListener>>()
+                italianCommandMap = new Dictionary<string[], Action<VoiceControlListener>>()
                 {
                     { VoiceCommandConfig.FireballCommand.Value.Split(' '), v => v.CastFireball() },
                     { VoiceCommandConfig.FrostBoltCommand.Value.Split(' '), v => v.CastFrostBolt() },
@@ -48,7 +48,7 @@ namespace MageArenaRussianVoice.Patches
                     { VoiceCommandConfig.MirrorCommand.Value.Split(' '), v => v.ActivateMirror() }
                 };
 
-                russianAdditionalCommandMap = new Dictionary<string, string[]>
+                italianAdditionalCommandMap = new Dictionary<string, string[]>
                 {
                     {"rock", VoiceCommandConfig.RockCommand.Value.Split(' ')},
                     {"wisp", VoiceCommandConfig.WispCommand.Value.Split(' ')},
@@ -122,14 +122,14 @@ namespace MageArenaRussianVoice.Patches
 
         private static void addSpellsToVocabulary(SpeechRecognizer recognizer)
         {
-            foreach (var pair in russianCommandMap)
+            foreach (var pair in italianCommandMap)
             {
                 foreach (var word in pair.Key)
                 {
                     recognizer.Vocabulary.Add(word);
                 }
             }
-            foreach (var pair in russianAdditionalCommandMap)
+            foreach (var pair in italianAdditionalCommandMap)
             {
                 foreach (string word in pair.Value)
                 {
@@ -144,14 +144,14 @@ namespace MageArenaRussianVoice.Patches
         {
             if (res != null)
             {
-                foreach (var command in russianCommandMap)
+                foreach (var command in italianCommandMap)
                 {
                     if (command.Key.Any(keyword => res.Contains(keyword)))
                     {
                         command.Value(__instance);
                     }
                 }
-                foreach (var pair in russianAdditionalCommandMap)
+                foreach (var pair in italianAdditionalCommandMap)
                 {
                     if (pair.Value.Any(keyword => res.Contains(keyword)))
                     {

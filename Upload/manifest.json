@@ -1,7 +1,7 @@
 {
-    "name": "MageArenaRussianVoice",
-    "version_number": "2.0.0",
-    "website_url": "https://github.com/InfernumVII/MageArenaRussianVoice",
-    "description": "Recognition russian voice mod for MageArena",
+    "name": "MageArenaItalianVoice",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/teddi201252/MageArenaItalianVoice",
+    "description": "Recognition italian voice mod for MageArena",
     "dependencies": ["BepInEx-BepInExPack-5.4.2100"]
 }

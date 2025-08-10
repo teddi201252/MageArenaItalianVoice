@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-    <AssemblyName>MageArenaRussianVoice</AssemblyName>
-    <Product>MageArenaRussianVoice</Product>
-    <Version>2.0.0</Version>
+    <AssemblyName>MageArenaItalianVoice</AssemblyName>
+    <Product>MageArenaItalianVoice</Product>
+    <Version>1.0.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <RestoreAdditionalProjectSources>
@@ -12,24 +12,24 @@
       https://nuget.bepinex.dev/v3/index.json;
       https://nuget.samboy.dev/v3/index.json
     </RestoreAdditionalProjectSources>
-    <RootNamespace>MageArenaRussianVoice</RootNamespace>
+    <RootNamespace>MageArenaItalianVoice</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Mage Arena\MageArena_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>E:\SteamLibrary\steamapps\common\Mage Arena\MageArena_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Recognissimo">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Mage Arena\MageArena_Data\Managed\Recognissimo.dll</HintPath>
+      <HintPath>E:\SteamLibrary\steamapps\common\Mage Arena\MageArena_Data\Managed\Recognissimo.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FishNet.Runtime">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Mage Arena\MageArena_Data\Managed\FishNet.Runtime.dll</HintPath>
+      <HintPath>E:\SteamLibrary\steamapps\common\Mage Arena\MageArena_Data\Managed\FishNet.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DissonanceVoip">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Mage Arena\MageArena_Data\Managed\DissonanceVoip.dll</HintPath>
+      <HintPath>E:\SteamLibrary\steamapps\common\Mage Arena\MageArena_Data\Managed\DissonanceVoip.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />

@@ -1,4 +1,4 @@
-Small Russian model for Vosk (Android, RPi, other small devices)
+Small Italian model for Vosk (Android, RPi, other small devices)
 
 %WER 22.71 [ 9092 / 40042, 1124 ins, 1536 del, 6432 sub ] exp/chain_a/tdnn/decode_test_audiobooks_look_fast/wer_10_0.0
 %WER 11.79 [ 5940 / 50394, 894 ins, 832 del, 4214 sub ] exp/chain_a/tdnn/decode_test_golos_crowd_look_fast/wer_11_0.0

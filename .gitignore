@@ -3,3 +3,4 @@ obj
 *.dll
 Debug
 *.zip
+.vs
